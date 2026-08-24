@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>For Kanzaa Aqeela</title>
+<style>
+* {margin: 0; padding: 0;}
+body {background: #000; overflow: hidden; font-family: 'Courier New', monospace;}
+canvas {position: fixed; top: 0; left: 0; width: 100%; height: 100%;}
+#mainText {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color: #ff1493; font-size: 10vw; font-weight: 900; text-align: center;
+  text-shadow: 0 0 30px #ff1493; white-space: nowrap; transition: all 0.5s;
+}
+#finalText {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color: #ff1493; font-size: 2.2vw; text-align: center; display: none;
+  text-shadow: 0 0 20px #ff1493; line-height: 1.8;
+}
+.heart {font-size: 12vw; animation: pulse 1s infinite;}
+@keyframes pulse {0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);}}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div id="mainText"></div>
+<div id="finalText"></div>
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let drops = Array(Math.floor(canvas.width / 16)).fill(1);
+
+setInterval(() => {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ff1493';
+  ctx.font = '16px Courier New';
+  for(let i = 0; i < drops.length; i++) {
+    ctx.fillText(Math.random() > 0.5? '1' : '0', i * 16, drops[i] * 16);
+    if(drops[i] * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}, 33);
+
+const mainText = document.getElementById('mainText');
+const finalText = document.getElementById('finalText');
+const sequence = ["3", "2", "1", "Kanzaa", "Aqeela", "You Are My Love"];
+let index = 0;
+
+function runSequence() {
+  if(index < sequence.length) {
+    mainText.innerText = sequence[index];
+    index++;
+    setTimeout(runSequence, 800); // aku lambatin biar gak tabrakan
+  } else {
+    setTimeout(showFinal, 1500);
+  }
+}
+
+function showFinal() {
+  mainText.style.display = 'none';
+  finalText.style.display = 'block';
+  finalText.innerHTML = `<div class="heart">❤️</div><div style="font-size: 3.5vw;">For Kanzaa Aqeela</div>`;
+
+  setTimeout(() => {
+    finalText.innerHTML = `
+      <div class="heart">❤️</div>
+      <div style="font-size: 3.5vw;">For Kanzaa Aqeela</div><br><br>
+      jangan pernah bosen sama akuu yaa,<br>
+      aku sayangg sama kamu.<br>
+      Jangan pernah berubah yaa<br>
+      wanita cantik nya aku<br>
+      wanita kuat nya akuu.<br><br>
+      <b>SEMANGAT TERUS KULIAH NYAA YAA SAYANGGG AKUU,</b><br>
+      LOVE YOUU SAYANG🫶❤️
+    `;
+  }, 2000);
+}
+
+setTimeout(runSequence, 3000);
+</script>
+</body>
+</html>
